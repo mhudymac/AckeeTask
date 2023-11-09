@@ -103,4 +103,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion"
+
+    def pagingVersion = "3.2.1"
+    implementation "androidx.paging:paging-compose:$pagingVersion"
+    implementation "androidx.paging:paging-runtime:$pagingVersion"
 }

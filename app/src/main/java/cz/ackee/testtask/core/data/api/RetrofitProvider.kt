@@ -8,11 +8,12 @@ import retrofit2.Retrofit
 
 object RetrofitProvider {
     private val json = Json { ignoreUnknownKeys = true }
+    private const val BASE_URL = "https://rickandmortyapi.com/api/"
 
     @OptIn(ExperimentalSerializationApi::class)
     fun provide(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://rickandmortyapi.com/api/")
+            .baseUrl(BASE_URL)
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
     }

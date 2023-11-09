@@ -6,14 +6,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class CharacterRoomDataSource(private val characterDao: CharacterDao) : CharacterLocalDataSource {
-    override suspend fun getAllCharacters(): Flow<List<Character>> {
-        return characterDao.getAllCharacters().map {
-            it.map { dbCharacter -> dbCharacter.toCharacter() }
-        }
-    }
 
     override suspend fun getCharacter(id: Int): Character? {
         return characterDao.getCharacter(id)?.toCharacter()
+    }
+
+    override suspend fun isFavorite(id: Int): Boolean {
+        return characterDao.getCharacter(id) != null
     }
 
     override suspend fun getFavorites(): Flow<List<Character>> {
@@ -22,16 +21,16 @@ class CharacterRoomDataSource(private val characterDao: CharacterDao) : Characte
         }
     }
 
-    override suspend fun insertCharacters(characters: List<Character>) {
-        characterDao.insertCharacters(characters.map { it.toDb() })
+    override suspend fun insertCharacter(character: Character) {
+        characterDao.insertCharacter(character.toDb())
     }
 
     override suspend fun deleteCharacters() {
         characterDao.deleteCharacters()
     }
 
-    override suspend fun updateCharacter(character: Character) {
-        characterDao.updateCharacter(character.toDb())
+    override suspend fun deleteCharacter(character: Character) {
+        characterDao.deleteCharacter(character.toDb())
     }
 
     private fun DbCharacter.toCharacter(): Character {

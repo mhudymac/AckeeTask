@@ -34,7 +34,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import cz.ackee.testtask.R
 import cz.ackee.testtask.characters.domain.Character
-import cz.ackee.testtask.characters.presentation.list.LoadingState
+import cz.ackee.testtask.characters.presentation.components.FullScreenCircularLoading
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -112,7 +112,7 @@ fun DetailScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             if (loading) {
-                LoadingState()
+                FullScreenCircularLoading()
             } else if (character == null) {
                 Text(stringResource(R.string.no_character_loaded))
             } else {

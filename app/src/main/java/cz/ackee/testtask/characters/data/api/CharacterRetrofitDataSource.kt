@@ -4,15 +4,15 @@ import cz.ackee.testtask.characters.data.CharacterRemoteDataSource
 import cz.ackee.testtask.characters.domain.Character
 
 class CharacterRetrofitDataSource(
-    private val apiDescription: CharactersApiDescription
+    private val apiDescription: CharactersApiDescription,
 ) : CharacterRemoteDataSource {
 
-    override suspend fun getCharacters(): List<Character> {
-        return apiDescription.getCharacters().results.map { it.toCharacter() }
+    override suspend fun getCharacters(page: Int): List<Character> {
+        return apiDescription.getCharacters(page).results.map { it.toCharacter() }
     }
 
-    override suspend fun searchCharacters(name: String): List<Character> {
-        return apiDescription.searchCharacters(name).results.map { it.toCharacter() }
+    override suspend fun searchCharacters(name: String, page: Int): List<Character> {
+        return apiDescription.searchCharacters(name = name, page = page).results.map { it.toCharacter() }
     }
 
     override suspend fun getCharacter(id: Int): Character {

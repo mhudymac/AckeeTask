@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import cz.ackee.testtask.characters.presentation.detail.DetailScreen
+import cz.ackee.testtask.characters.presentation.list.FavoriteScreen
 import cz.ackee.testtask.characters.presentation.list.ListScreen
 import cz.ackee.testtask.characters.presentation.search.SearchScreen
 
@@ -22,6 +23,9 @@ fun Navigation() {
     ) {
         composable(route = Screen.ListScreen.route) {
             ListScreen(navController = navController)
+        }
+        composable(route = Screen.FavoriteScreen.route) {
+            FavoriteScreen(navController = navController)
         }
         composable(
             route = Screen.DetailScreen.route + "/{id}",
