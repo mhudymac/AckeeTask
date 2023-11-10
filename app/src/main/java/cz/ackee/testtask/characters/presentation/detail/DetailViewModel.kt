@@ -20,7 +20,7 @@ class DetailViewModel(
     val loading = _loading.asStateFlow()
 
     fun getCharacter(id: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             _character.value = characterRepository.getCharacter(id)
             _loading.value = false
         }
