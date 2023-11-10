@@ -21,7 +21,7 @@ class SearchViewModel(
 
     fun searchCharacters(name: String) {
         if (name.isNotEmpty()) {
-            viewModelScope.launch(Dispatchers.IO) {
+            viewModelScope.launch {
                 characterRepository.searchCharacters(name).cachedIn(viewModelScope).collect { characters ->
                     _characters.value = characters
                 }
