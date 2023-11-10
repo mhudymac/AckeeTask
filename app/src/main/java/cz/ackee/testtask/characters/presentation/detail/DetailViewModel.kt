@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class DetailViewModel(
-    private val characterRepository: CharacterRepository
+    private val characterRepository: CharacterRepository,
 ) : ViewModel() {
     private val _character = MutableStateFlow<Character?>(null)
     val character: StateFlow<Character?> = _character
@@ -30,11 +30,14 @@ class DetailViewModel(
     fun onFavoriteClick() {
         val favorite = character.value?.favorite?.not() ?: false
         _character.value = character.value?.copy(favorite = favorite)
-
-        viewModelScope.launch(Dispatchers.IO) {
-            val tmpCharacter = _character.value
-            if (tmpCharacter != null) {
-                characterRepository.update(tmpCharacter)
+        val tmpCharacter = _character.value
+        if (tmpCharacter != null) {
+            viewModelScope.launch(Dispatchers.IO) {
+                if (favorite) {
+                    characterRepository.insert(tmpCharacter)
+                } else {
+                    characterRepository.delete(tmpCharacter)
+                }
             }
         }
     }

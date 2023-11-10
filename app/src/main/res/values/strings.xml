@@ -23,4 +23,9 @@
     <string name="clear_icon">Clear icon</string>
     <string name="image">Image</string>
     <string name="no_character_loaded">Couldn\'t load selected character. :(</string>
+    <string name="no_favorites">No favorite characters</string>
+    <string name="retry">retry</string>
+    <string name="loading_error">Unable to load characters</string>
+    <string name="no_characters">No characters matching the prompt</string>
+    <string name="loading_more_error">Unable to load more characters</string>
 </resources>

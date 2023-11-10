@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "characters")
 data class DbCharacter(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = false) val id: Int,
     val name: String,
     val status: String,
     val species: String,
@@ -14,5 +14,5 @@ data class DbCharacter(
     val origin: String,
     val location: String,
     val image: String,
-    val favorite: Boolean
+    val favorite: Boolean,
 )

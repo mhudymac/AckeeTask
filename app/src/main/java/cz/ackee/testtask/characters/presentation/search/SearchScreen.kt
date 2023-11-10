@@ -1,14 +1,9 @@
 package cz.ackee.testtask.characters.presentation.search
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentAlpha
@@ -34,10 +29,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import cz.ackee.testtask.R
 import cz.ackee.testtask.characters.domain.Character
-import cz.ackee.testtask.characters.presentation.list.CharacterListItem
-import cz.ackee.testtask.characters.presentation.list.LoadingState
+import cz.ackee.testtask.characters.presentation.components.PagingList
 import cz.ackee.testtask.navigation.Screen
 import org.koin.androidx.compose.koinViewModel
 
@@ -46,15 +42,13 @@ fun SearchScreen(
     navController: NavController,
     viewModel: SearchViewModel = koinViewModel(),
 ) {
-    val characters by viewModel.characters.collectAsState()
-    val loading by viewModel.loading.collectAsState()
+    val characters = viewModel.characters.collectAsLazyPagingItems()
     val searchedText by viewModel.searchText.collectAsState()
 
     SearchScreenContent(
         onNavigateBack = navController::popBackStack,
         searchedText = searchedText,
         characters = characters,
-        loading = loading,
         onSearch = viewModel::searchCharacters,
         onClear = viewModel::clearText,
         onCharacterClicked = {
@@ -66,12 +60,11 @@ fun SearchScreen(
 @Composable
 fun SearchScreenContent(
     searchedText: String,
-    characters: List<Character>,
+    characters: LazyPagingItems<Character>,
     onNavigateBack: () -> Unit,
     onSearch: (String) -> Unit,
     onClear: () -> Unit,
     onCharacterClicked: (Int) -> Unit,
-    loading: Boolean,
 ) {
     Scaffold(
         topBar = {
@@ -80,7 +73,8 @@ fun SearchScreenContent(
                 elevation = 20.dp,
             ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .height(56.dp),
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically,
@@ -101,27 +95,12 @@ fun SearchScreenContent(
             }
         },
     ) {
-        if (loading || (characters.isEmpty() && searchedText.isNotEmpty())) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                if (loading) {
-                    LoadingState()
-                } else {
-                    Text("No characters found matching your description :(")
-                }
-            }
-        } else {
-            LazyColumn(modifier = Modifier.fillMaxSize().padding(it)) {
-                items(characters) { character ->
-                    CharacterListItem(
-                        character = character,
-                        onCharacterClicked = onCharacterClicked,
-                    )
-                }
-            }
+        if (searchedText.isNotEmpty()) {
+            PagingList(
+                characters = characters,
+                onCharacterClicked = onCharacterClicked,
+                padding = it,
+            )
         }
     }
 }
