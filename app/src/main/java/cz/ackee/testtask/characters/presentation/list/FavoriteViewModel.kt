@@ -23,7 +23,6 @@ class FavoriteViewModel(
             characterRepository.getFavorites().collect { characters ->
                 _characters.value = characters
                 _screenLoadingState.value = false
-
             }
         }
     }

@@ -96,6 +96,7 @@ fun BottomBar(
     }
 }
 
+// A container to hold one character
 @Composable
 fun CharacterListItem(
     character: Character,
@@ -186,6 +187,7 @@ fun ListTopAppBar(
     )
 }
 
+// Base structure of both listScreens
 @Composable
 fun ListScaffold(
     loadingState: Boolean,
@@ -221,6 +223,7 @@ fun ListScaffold(
     }
 }
 
+// ErrorScreen that shows a text and a button if chosen to
 @Composable
 fun ErrorScreen(
     text: String,
@@ -237,13 +240,14 @@ fun ErrorScreen(
         if (showButton) {
             Button(onClick = onRetryClick) {
                 Text(
-                    text = "retry",
+                    text = stringResource(id = R.string.retry),
                 )
             }
         }
     }
 }
 
+// LazyColumn implementation with Paging handling
 @Composable
 fun PagingList(
     characters: LazyPagingItems<Character>,
@@ -253,12 +257,12 @@ fun PagingList(
     if (characters.loadState.refresh is LoadState.Error) {
         if ((characters.loadState.refresh as LoadState.Error).error is IOException) {
             ErrorScreen(
-                text = "Unable to load characters",
+                text = stringResource(id = R.string.loading_error),
                 onRetryClick = { characters.retry() },
                 showButton = true,
             )
         } else {
-            ErrorScreen(text = "No characters matching the prompt")
+            ErrorScreen(text = stringResource(id = R.string.no_characters))
         }
     } else if ((characters.loadState.refresh is LoadState.Loading) || (characters.loadState.mediator?.refresh is LoadState.Loading)) {
         FullScreenCircularLoading()
@@ -282,7 +286,7 @@ fun PagingList(
                     FullScreenCircularLoading()
                 } else if (characters.loadState.append is LoadState.Error && (characters.loadState.append as LoadState.Error).error is IOException) {
                     ErrorScreen(
-                        text = "Unable to load more characters",
+                        text = stringResource(id = R.string.loading_more_error),
                         onRetryClick = { characters.retry() },
                         showButton = true,
                     )

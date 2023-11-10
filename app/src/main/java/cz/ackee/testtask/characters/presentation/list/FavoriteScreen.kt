@@ -7,11 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import cz.ackee.testtask.R
 import cz.ackee.testtask.characters.domain.Character
 import cz.ackee.testtask.characters.presentation.components.CharacterListItem
-import cz.ackee.testtask.characters.presentation.components.ListScaffold
 import cz.ackee.testtask.characters.presentation.components.ErrorScreen
+import cz.ackee.testtask.characters.presentation.components.ListScaffold
 import cz.ackee.testtask.navigation.Screen
 import org.koin.androidx.compose.koinViewModel
 
@@ -54,6 +56,6 @@ private fun FavoriteScreen(
             }
         }
     } else {
-        ErrorScreen(text = "No favorite characters", showButton = false)
+        ErrorScreen(text = stringResource(id = R.string.no_favorites))
     }
 }

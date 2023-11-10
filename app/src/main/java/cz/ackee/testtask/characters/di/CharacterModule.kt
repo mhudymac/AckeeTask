@@ -24,7 +24,7 @@ val characterModule get() = module {
     single { get<CharacterDatabase>().characterDao() }
     factory<CharacterLocalDataSource> { CharacterRoomDataSource(characterDao = get()) }
 
-    factory { CharacterListPagingDataSource(remoteDataSource = get(), localDataSource = get()) }
+    factoryOf(::CharacterListPagingDataSource)
 
     factoryOf(::CharacterRepository)
 

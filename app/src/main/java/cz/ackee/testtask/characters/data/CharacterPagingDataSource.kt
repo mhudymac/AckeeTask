@@ -3,7 +3,6 @@ package cz.ackee.testtask.characters.data
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import cz.ackee.testtask.characters.domain.Character
-import kotlinx.coroutines.flow.toList
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -17,7 +16,7 @@ class CharacterSearchPagingDataSource(private val remoteDataSource: CharacterRem
             LoadResult.Page(
                 data = characters,
                 prevKey = if (currentPage == 1) null else -1,
-                nextKey = currentPage.plus(1),
+                nextKey = if (characters.isEmpty()) null else currentPage.plus(1),
             )
         } catch (exception: IOException) {
             return LoadResult.Error(exception)

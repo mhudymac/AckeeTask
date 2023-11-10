@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import cz.ackee.testtask.characters.domain.Character
 import kotlinx.coroutines.flow.Flow
 
+private const val PAGE_SIZE = 40
 class CharacterRepository(
     private val characterLocalDataSource: CharacterLocalDataSource,
     private val characterRemoteDataSource: CharacterRemoteDataSource,
@@ -13,12 +14,13 @@ class CharacterRepository(
 ) {
     // Loads characters from the remote data source.
     fun loadCharacters(): Flow<PagingData<Character>> {
-        val config = PagingConfig(pageSize = 40)
+        val config = PagingConfig(pageSize = PAGE_SIZE)
         return Pager(config) { characterListPagingDataSource }.flow
     }
 
+    // Loads characters from remote data source matching by name
     fun searchCharacters(name: String): Flow<PagingData<Character>> {
-        val config = PagingConfig(pageSize = 40)
+        val config = PagingConfig(pageSize = PAGE_SIZE)
         return Pager(config) { CharacterSearchPagingDataSource(name = name, remoteDataSource = characterRemoteDataSource) }.flow
     }
 
